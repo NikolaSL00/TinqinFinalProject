@@ -1,0 +1,46 @@
+jwt:
+  secret: t@pSecr3t!
+  tokenValidity: 89990000
+
+api:
+  latLonLocationApiKey: 68144b847bc64e6cadf90133220807
+  latLonLocationBaseUrl: http://api.weatherapi.com/v1/current.json
+  findPlaceApiUrl: https://spott.p.rapidapi.com/places/autocomplete
+  findPlaceHeaderApiKey: 7694d4ba9dmshaed65e27186468cp1ba662jsn659243f22710
+  findPlaceHeaderApiHost: spott.p.rapidapi.com
+  googleKey: AIzaSyA90x7X8nog9tN2OO1h_VJ2yrSKuHZF5l8
+  googleUrl: https://maps.googleapis.com/maps/api/distancematrix/json
+
+constants:
+  highwayToRailway: 0.88
+  highwayToAir: 0.5
+
+users:
+  store:
+    url: http://localhost:8081
+
+fuelInfo:
+  url: http://localhost:8083
+
+
+
+
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ClientResourcesDB?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+#  sql:
+#    init:
+#      mode: always
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
