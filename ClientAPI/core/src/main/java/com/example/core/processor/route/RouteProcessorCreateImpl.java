@@ -10,12 +10,11 @@ import com.example.api.model.route.RouteCreateRequest;
 import com.example.api.model.route.RouteCreateResponse;
 import com.example.api.operation.RouteProcessorCreate;
 import com.example.domain.crud.PlaceCRUD;
+import com.example.domain.crud.RouteCRUD;
 import com.example.domain.entity.PlaceEntity;
 import com.example.domain.entity.RouteEntity;
 import com.example.domain.feignGoogleAPI.model.RouteDTO;
 import com.example.domain.feignGoogleAPI.service.GoogleAPIRouteInfoService;
-import com.example.domain.feignLocatePlaceAPI.service.RestApiLocatePlaceService;
-import com.example.domain.repository.RouteEntityRepository;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import org.springframework.stereotype.Service;
@@ -24,17 +23,13 @@ import java.util.Optional;
 
 @Service
 public class RouteProcessorCreateImpl implements RouteProcessorCreate {
-    private final RouteEntityRepository routeRepository;
+    private final RouteCRUD routeCRUD;
     private final PlaceCRUD placeCRUD;
-
     private final GoogleAPIRouteInfoService googleAPIRouteInfoService;
-    private final RestApiLocatePlaceService restApiLocatePlaceService;
 
-    public RouteProcessorCreateImpl(RestApiLocatePlaceService restApiLocatePlaceService,
-                                    RouteEntityRepository routeRepository,
-                                    PlaceCRUD placeCRUD, GoogleAPIRouteInfoService googleAPIRouteInfoService) {
-        this.restApiLocatePlaceService = restApiLocatePlaceService;
-        this.routeRepository = routeRepository;
+    public RouteProcessorCreateImpl(RouteCRUD routeCRUD, PlaceCRUD placeCRUD,
+                                    GoogleAPIRouteInfoService googleAPIRouteInfoService) {
+        this.routeCRUD = routeCRUD;
         this.placeCRUD = placeCRUD;
         this.googleAPIRouteInfoService = googleAPIRouteInfoService;
     }
@@ -42,10 +37,11 @@ public class RouteProcessorCreateImpl implements RouteProcessorCreate {
     @Override
     public Either<Error, RouteCreateResponse> process(RouteCreateRequest request) {
         return Try.of(() -> {
+                    PlaceEntity placeDeparture;
+                    PlaceEntity placeDestination;
+
                     Optional<PlaceEntity> placeDepartureOpt = placeCRUD
                             .getPlace(request.getFirstDestination());
-
-                    PlaceEntity placeDeparture = null;
                     if (placeDepartureOpt.isEmpty()) {
                         placeDeparture = placeCRUD.createPlace(PlaceCreateRequest
                                 .builder()
@@ -63,8 +59,6 @@ public class RouteProcessorCreateImpl implements RouteProcessorCreate {
 
                     Optional<PlaceEntity> placeDestinationOpt = placeCRUD
                             .getPlace(request.getSecondDestination());
-
-                    PlaceEntity placeDestination = null;
                     if (placeDestinationOpt.isEmpty()) {
                         placeDestination = placeCRUD.createPlace(PlaceCreateRequest
                                 .builder()
@@ -79,10 +73,7 @@ public class RouteProcessorCreateImpl implements RouteProcessorCreate {
                         placeDestination = placeDestinationOpt.get();
                     }
 
-
-                    routeRepository.findRouteEntityByStartingPlaceAndEndPlace(
-                                    placeDeparture,
-                                    placeDestination)
+                    routeCRUD.getRouteByStartingAndEndingPlace(placeDeparture, placeDestination)
                             .stream()
                             .findAny()
                             .ifPresent(s -> {
@@ -106,8 +97,8 @@ public class RouteProcessorCreateImpl implements RouteProcessorCreate {
                             .highwayDistance(routeInfo.getHighwayDistance())
                             .numSearched(0)
                             .build();
-                    routeRepository.save(route);
 
+                    routeCRUD.createRoute(route);
 
                     return RouteCreateResponse.builder()
                             .from(PlaceDTO.builder()

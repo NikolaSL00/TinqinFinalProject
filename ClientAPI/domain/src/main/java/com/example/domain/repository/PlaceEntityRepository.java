@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface PlaceEntityRepository extends JpaRepository<PlaceEntity, Long> {
     Optional<PlaceEntity> findPlaceEntityByCityAndCountry (String city, String country);
+
+    Optional<PlaceEntity> findPlaceEntityByCity(String city);
 }

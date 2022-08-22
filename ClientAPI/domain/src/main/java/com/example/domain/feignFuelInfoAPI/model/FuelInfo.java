@@ -6,7 +6,11 @@ import lombok.Data;
 @Data
 @Builder
 public class FuelInfo {
-    private Double vehiclePrice;
+    private String from;
+    private String to;
+
+    private Double busPrice;
+    private Double carPrice;
     private Double railwayPrice;
     private Double airlinePrice;
 }

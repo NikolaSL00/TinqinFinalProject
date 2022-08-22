@@ -1,4 +1,4 @@
-package com.example.domain.feignClientUsers.model;
+package feignClientUsers.model;
 
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;

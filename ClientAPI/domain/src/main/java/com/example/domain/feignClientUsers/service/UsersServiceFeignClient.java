@@ -1,8 +1,8 @@
 package com.example.domain.feignClientUsers.service;
 
 import com.example.api.erroring.exception.FeignClientException;
-import com.example.domain.feignClientUsers.model.UserDTOCreateRequest;
-import com.example.domain.feignClientUsers.model.UserDTOResponse;
+import feignClientUsers.model.UserDTOCreateRequest;
+import feignClientUsers.model.UserDTOResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -51,6 +51,10 @@ public class PlaceCRUD {
                 coordinate.getCountry());
     }
 
+    public Optional<PlaceEntity> getPlaceByCity(String city){
+        return placeRepository.findPlaceEntityByCity(city);
+    }
+
     public PlaceEntity updatePlace (PlaceEntity place){
         return placeRepository.save(place);
     }

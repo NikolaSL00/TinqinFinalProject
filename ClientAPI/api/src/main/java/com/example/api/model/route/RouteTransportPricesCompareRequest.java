@@ -7,5 +7,6 @@ import lombok.Data;
 @Data
 @Builder
 public class RouteTransportPricesCompareRequest implements OperationInput {
-
+    private String from;
+    private String to;
 }
