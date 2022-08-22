@@ -13,6 +13,10 @@ Then you can compare the prices and the time it requires and you can take your d
 
 Services:
 1. service client + security
+
 2. service with DB for users
+https://github.com/NikolaSL00/TinqinSecurityStore
+
 3. service for information for fuel
+https://github.com/NikolaSL00/FuelInfoService
   
