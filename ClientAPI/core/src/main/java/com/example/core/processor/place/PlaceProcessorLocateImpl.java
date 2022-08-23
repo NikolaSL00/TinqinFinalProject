@@ -5,6 +5,7 @@ import com.example.api.erroring.error.FeignServiceError;
 import com.example.api.erroring.error.PlaceNotFoundError;
 import com.example.api.erroring.exception.PlaceNotFoundException;
 import com.example.api.model.place.Coordinate;
+import com.example.api.model.place.PlaceLocateRequest;
 import com.example.api.model.place.PlaceLocateResponse;
 import com.example.api.operation.PlaceProcessorLocate;
 import com.example.domain.feignFindPlaceAPI.service.RestApiFindPlaceService;
@@ -26,9 +27,9 @@ public class PlaceProcessorLocateImpl implements PlaceProcessorLocate {
     }
 
     @Override
-    public Either<Error, PlaceLocateResponse> process(Coordinate coords) {
+    public Either<Error, PlaceLocateResponse> process(PlaceLocateRequest req) {
         return Try.of(() -> {
-                    Place place = restApiLocatePlaceService.getPlace(coords);
+                    Place place = restApiLocatePlaceService.getPlace(req);
 
                     return PlaceLocateResponse
                             .builder()

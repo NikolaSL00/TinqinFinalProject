@@ -3,8 +3,6 @@ package com.example.api.model.place;
 import com.example.api.base.OperationInput;
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @Builder
 @Getter
 @Setter

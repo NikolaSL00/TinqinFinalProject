@@ -2,6 +2,7 @@ package com.example.domain.feignLocatePlaceAPI.service;
 
 import com.example.api.erroring.exception.PlaceNotFoundException;
 import com.example.api.model.place.Coordinate;
+import com.example.api.model.place.PlaceLocateRequest;
 import com.example.domain.feignLocatePlaceAPI.model.LocalizedPlace;
 import com.example.domain.feignLocatePlaceAPI.model.Place;
 import feign.FeignException;
@@ -18,10 +19,10 @@ public class RestApiLocatePlaceService {
         this.feignClientPlace = feignClientWeather;
     }
 
-    public Place getPlace(Coordinate coords) {
+    public Place getPlace(PlaceLocateRequest req) {
         try {
             LocalizedPlace root = feignClientPlace
-                    .locatePlace(env.getProperty("api.latLonLocationApiKey"), coords.toString());
+                    .locatePlace(env.getProperty("api.latLonLocationApiKey"), req.toString());
 
             return Place.builder()
                     .city(root.getLocation().getRegion())
@@ -32,8 +33,8 @@ public class RestApiLocatePlaceService {
                     .build();
         } catch (Exception ex){
             if(ex instanceof FeignException.BadRequest){
-                throw new PlaceNotFoundException("Place with latitude: " + coords.getLatitude()
-                        + " and longitude " + coords.getLongitude() + " not found.");
+                throw new PlaceNotFoundException("Place with latitude: " + req.getLatitude()
+                        + " and longitude " + req.getLongitude() + " not found.");
             }
             throw new RuntimeException();
         }

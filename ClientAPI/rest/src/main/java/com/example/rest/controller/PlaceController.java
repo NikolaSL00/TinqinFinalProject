@@ -1,10 +1,7 @@
 package com.example.rest.controller;
 
 import com.example.api.base.Error;
-import com.example.api.model.place.Coordinate;
-import com.example.api.model.place.PlaceFindRequest;
-import com.example.api.model.place.PlaceFindResponse;
-import com.example.api.model.place.PlaceLocateResponse;
+import com.example.api.model.place.*;
 import com.example.api.operation.PlaceProcessorFind;
 import com.example.api.operation.PlaceProcessorLocate;
 import io.vavr.control.Either;
@@ -25,8 +22,8 @@ public class PlaceController {
     }
 
     @GetMapping("/current")
-    ResponseEntity<?> locateCurrentPlace(@RequestBody Coordinate coordinates) {
-        Either<Error, PlaceLocateResponse> response = placeProcessorLocate.process(coordinates);
+    ResponseEntity<?> locateCurrentPlace(@RequestBody PlaceLocateRequest placeLocateRequest) {
+        Either<Error, PlaceLocateResponse> response = placeProcessorLocate.process(placeLocateRequest);
 
         if(response.isLeft()){
             return ResponseEntity

@@ -94,4 +94,35 @@ class LoginProcessorImplTest {
         assertEquals(HttpStatus.NOT_FOUND,
                 processRes.getLeft().getCode());
     }
+    @Test
+    void loginAPIServiceCode500ShouldReturnError(){
+        // arrange
+        LoginRequest testReq = LoginRequest.builder()
+                .username("nikola")
+                .password("topsecret")
+                .build();
+
+        feignClientUsers.model.ClientUserDetails testUser = feignClientUsers.model.ClientUserDetails
+                .builder()
+                .age(22)
+                .firstName("Nikola")
+                .lastName("Slavchev")
+                .password("topsecret")
+                .authorities(Collections.emptyList())
+                .username("nikola00")
+                .build();
+
+        when(feignClient.findByUsername(anyString()))
+                .thenThrow(new RuntimeException("Username or password are wrong"));
+
+        // act
+        Either<Error, LoginResult> processRes = toTest.process(testReq);
+
+        // assert
+        assertEquals("UserStore Service is not available!",
+                processRes.getLeft().getMessage());
+
+        assertEquals(HttpStatus.SERVICE_UNAVAILABLE,
+                processRes.getLeft().getCode());
+    }
 }
