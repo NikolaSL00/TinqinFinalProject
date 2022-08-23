@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterProcessorImpl implements RegisterProcessor {
+
     private final UsersServiceFeignClientImpl userServiceFeignClient;
 
     public RegisterProcessorImpl(UsersServiceFeignClientImpl userServiceFeignClient) {
@@ -27,7 +28,6 @@ public class RegisterProcessorImpl implements RegisterProcessor {
 
         return Try.of(()->{
                     final UserDTOResponse user = userServiceFeignClient.createUser(req);
-
                     UserDetails userDetails = userServiceFeignClient.findByUsername(user.getUsername());
 
                     return RegisterResult
@@ -37,7 +37,6 @@ public class RegisterProcessorImpl implements RegisterProcessor {
 
                 }).toEither()
                 .mapLeft(throwable -> {
-
                     if(throwable instanceof UserCreationFailureException){
                         return new UserAlreadyExistError();
                     }
