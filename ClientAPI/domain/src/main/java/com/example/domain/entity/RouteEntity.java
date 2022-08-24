@@ -15,10 +15,8 @@ public class RouteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OneToOne
     private PlaceEntity startingPlace;
-
     @OneToOne
     private PlaceEntity endPlace;
 

@@ -35,16 +35,6 @@ public class RouteProcessorCompareImpl implements RouteProcessorCompare {
         this.routeCRUD = routeCRUD;
     }
 
-    // we have string from and to
-    // find PlaceEntity with from name and PlaceEntity with to name
-    // PlaceEntity not found exc
-
-    // find RouteEntity with startingPlace == from and endPlace == to
-    // RouteEntity not found exc
-
-    // request the fuelInfoAPI for the price comparison and then return
-    // internal server feign exc
-
     @Override
     public Either<Error, RouteTransportPricesCompareResponse> process(RouteTransportPricesCompareRequest input) {
         return Try.of(() -> {

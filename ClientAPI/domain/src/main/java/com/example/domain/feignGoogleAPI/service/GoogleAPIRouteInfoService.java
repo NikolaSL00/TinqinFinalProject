@@ -37,7 +37,7 @@ public class GoogleAPIRouteInfoService {
 
         } catch (Exception ex){
             if(ex instanceof FeignException.BadRequest){
-                throw new PlaceNotFoundException("Bad request");
+                throw new PlaceNotFoundException("Bad request.");
             }
             if(ex instanceof NullPointerException) {
                 throw new PlaceNotFoundException("Bad request.");
