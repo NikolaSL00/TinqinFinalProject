@@ -56,14 +56,16 @@ public class RouteProcessorCompareImpl implements RouteProcessorCompare {
                         throw new RouteNotFoundException("Route not found");
                     }
 
-                    FuelInfo fuelInfoResponse = fuelInfoService.getFuelInfoForRoute(
-                            RouteDTO
-                                    .builder().from(startingPlace.get().getCity())
-                                    .to(endPlace.get().getCity())
-                                    .highwayDistance(routeOpt.get().getHighwayDistance())
-                                    .airDistance(routeOpt.get().getAirDistance())
-                                    .railwayDistance(routeOpt.get().getRailwayDistance())
-                                    .build());
+                    RouteDTO req =
+                            RouteDTO.builder()
+                            .from(startingPlace.get().getCity())
+                            .to(endPlace.get().getCity())
+                            .highwayDistance(routeOpt.get().getHighwayDistance())
+                            .airDistance(routeOpt.get().getAirDistance())
+                            .railwayDistance(routeOpt.get().getRailwayDistance())
+                            .build();
+
+                    FuelInfo fuelInfoResponse = fuelInfoService.getFuelInfoForRoute(req);
 
 
                     routeOpt.get()
